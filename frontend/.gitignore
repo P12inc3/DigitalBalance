@@ -1,0 +1,26 @@
+# Зависимости
+/node_modules
+
+# Next.js
+/.next/
+/out/
+next-env.d.ts
+
+# Сборка
+/build
+
+# Окружение
+.env*.local
+
+# Отладка
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.vscode/
+.idea/
+
+# Прочее
+.DS_Store
+*.pem

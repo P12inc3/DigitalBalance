@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Секреты и окружение
+.env
+*.env.local
+
+# База данных
+*.db
+*.sqlite3
+
+# Next.js / Node
+node_modules/
+.next/
+out/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
