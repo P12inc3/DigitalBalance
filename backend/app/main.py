@@ -11,7 +11,7 @@ from app.database import Base, engine
 
 # Импорт моделей обязателен до create_all — иначе SQLAlchemy
 # не узнает о таблицах. Новые модели добавлять сюда.
-from app.models import user  # noqa: F401
+from app.models import user, secretary  # noqa: F401
 
 
 @asynccontextmanager
@@ -63,6 +63,8 @@ async def health_check():
 
 
 # --- Роутеры модулей ---
-from app.api.v1 import auth  # noqa: E402
+from app.api.v1 import auth, events, tasks  # noqa: E402
 
 app.include_router(auth.router, prefix=settings.API_V1_PREFIX)
+app.include_router(tasks.router, prefix=settings.API_V1_PREFIX)
+app.include_router(events.router, prefix=settings.API_V1_PREFIX)
