@@ -158,3 +158,42 @@ export async function updateTask(
 export async function deleteTask(id: number): Promise<void> {
   return request<void>(`/tasks/${id}`, { method: "DELETE" });
 }
+
+// ─────────────────────────── Events ───────────────────────────
+
+export interface EventItem {
+  id: number;
+  user_id: number;
+  title: string;
+  description: string | null;
+  start_time: string;
+  end_time: string;
+  event_type: string;
+  location: string | null;
+  created_at: string;
+}
+
+export interface EventCreateInput {
+  title: string;
+  start_time: string; // ISO-строка
+  end_time: string;
+  event_type?: string;
+  location?: string;
+}
+
+export async function getEvents(): Promise<EventItem[]> {
+  return request<EventItem[]>("/events");
+}
+
+export async function createEvent(
+  data: EventCreateInput
+): Promise<EventItem> {
+  return request<EventItem>("/events", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deleteEvent(id: number): Promise<void> {
+  return request<void>(`/events/${id}`, { method: "DELETE" });
+}

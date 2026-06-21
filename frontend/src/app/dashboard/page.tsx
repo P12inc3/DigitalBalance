@@ -8,16 +8,20 @@ import {
   createTask,
   updateTask,
   deleteTask,
+  getEvents,
   clearToken,
   getToken,
   type User,
   type Task,
+  type EventItem,
 } from "@/lib/api";
+import { EventsPanel } from "@/components/EventsPanel";
 
 export default function DashboardPage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [events, setEvents] = useState<EventItem[]>([]);
   const [newTask, setNewTask] = useState("");
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
@@ -25,9 +29,14 @@ export default function DashboardPage() {
   // Загрузка данных при входе на страницу.
   const loadData = useCallback(async () => {
     try {
-      const [me, taskList] = await Promise.all([getMe(), getTasks()]);
+      const [me, taskList, eventList] = await Promise.all([
+        getMe(),
+        getTasks(),
+        getEvents(),
+      ]);
       setUser(me);
       setTasks(taskList);
+      setEvents(eventList);
     } catch {
       // Токен невалиден или отсутствует — на страницу входа.
       clearToken();
@@ -152,27 +161,33 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Добавление задачи */}
-        <div className="mt-8 flex gap-3">
-          <input
-            type="text"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleAddTask()}
-            placeholder="Новая задача..."
-            className="flex-1 rounded-lg border border-base-600 bg-base-800 px-4 py-2.5 text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-          />
-          <button
-            onClick={handleAddTask}
-            disabled={adding}
-            className="rounded-lg bg-accent px-5 py-2.5 font-medium text-base-900 transition-colors hover:bg-accent-hover disabled:opacity-50"
-          >
-            Добавить
-          </button>
-        </div>
+        {/* Две колонки: задачи слева, календарь справа */}
+        <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2">
+          {/* ── Колонка задач ── */}
+          <div>
+            <h2 className="mb-4 text-lg font-medium text-ink">Задачи</h2>
 
-        {/* Список задач */}
-        <div className="mt-6 space-y-2">
+            {/* Добавление задачи */}
+            <div className="flex gap-3">
+              <input
+                type="text"
+                value={newTask}
+                onChange={(e) => setNewTask(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleAddTask()}
+                placeholder="Новая задача..."
+                className="flex-1 rounded-lg border border-base-600 bg-base-800 px-4 py-2.5 text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+              />
+              <button
+                onClick={handleAddTask}
+                disabled={adding}
+                className="rounded-lg bg-accent px-5 py-2.5 font-medium text-base-900 transition-colors hover:bg-accent-hover disabled:opacity-50"
+              >
+                Добавить
+              </button>
+            </div>
+
+            {/* Список задач */}
+            <div className="mt-6 space-y-2">
           {tasks.length === 0 ? (
             <div className="rounded-xl border border-dashed border-base-600 py-12 text-center">
               <p className="text-ink-muted">Пока нет задач</p>
@@ -254,6 +269,11 @@ export default function DashboardPage() {
               </div>
             ))
           )}
+            </div>
+          </div>
+
+          {/* ── Колонка календаря ── */}
+          <EventsPanel events={events} onEventsChange={setEvents} />
         </div>
       </div>
     </main>
