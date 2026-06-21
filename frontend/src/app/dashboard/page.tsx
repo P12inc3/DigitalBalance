@@ -16,6 +16,8 @@ import {
   type EventItem,
 } from "@/lib/api";
 import { EventsPanel } from "@/components/EventsPanel";
+import { HealthPanel } from "@/components/HealthPanel";
+import { MotivationBanner } from "@/components/MotivationBanner";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -142,6 +144,11 @@ export default function DashboardPage() {
         <h1 className="mt-2 text-3xl font-semibold text-ink">
           Привет, {user?.full_name}
         </h1>
+
+        {/* Баннер мотивации — главное наверху */}
+        <div className="mt-8">
+          <MotivationBanner />
+        </div>
 
         {/* Сводка по задачам — данные как в дашборде */}
         <div className="mt-8 flex gap-px overflow-hidden rounded-xl border border-base-700 bg-base-700">
@@ -274,6 +281,11 @@ export default function DashboardPage() {
 
           {/* ── Колонка календаря ── */}
           <EventsPanel events={events} onEventsChange={setEvents} />
+        </div>
+
+        {/* ── Секция здоровья ── */}
+        <div className="mt-12 border-t border-base-700 pt-10">
+          <HealthPanel />
         </div>
       </div>
     </main>

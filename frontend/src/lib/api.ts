@@ -197,3 +197,109 @@ export async function createEvent(
 export async function deleteEvent(id: number): Promise<void> {
   return request<void>(`/events/${id}`, { method: "DELETE" });
 }
+
+// ─────────────────────────── Health ───────────────────────────
+
+export interface WaterLog {
+  id: number;
+  user_id: number;
+  amount_ml: number;
+  logged_at: string;
+}
+
+export interface MealLog {
+  id: number;
+  user_id: number;
+  name: string;
+  calories: number | null;
+  meal_type: "breakfast" | "lunch" | "dinner" | "snack";
+  logged_at: string;
+}
+
+export interface Routine {
+  id: number;
+  user_id: number;
+  wake_time: string;
+  sleep_time: string;
+  water_goal_ml: number;
+  updated_at: string;
+}
+
+export interface HealthSummary {
+  water_total_ml: number;
+  water_goal_ml: number;
+  water_percent: number;
+  calories_total: number;
+  meals_count: number;
+}
+
+const HT = "/health-tracker";
+
+// --- Вода ---
+export async function getWaterToday(): Promise<WaterLog[]> {
+  return request<WaterLog[]>(`${HT}/water`);
+}
+
+export async function addWater(amount_ml: number): Promise<WaterLog> {
+  return request<WaterLog>(`${HT}/water`, {
+    method: "POST",
+    body: JSON.stringify({ amount_ml }),
+  });
+}
+
+export async function deleteWater(id: number): Promise<void> {
+  return request<void>(`${HT}/water/${id}`, { method: "DELETE" });
+}
+
+// --- Питание ---
+export async function getMealsToday(): Promise<MealLog[]> {
+  return request<MealLog[]>(`${HT}/meals`);
+}
+
+export async function addMeal(
+  name: string,
+  calories: number | null,
+  meal_type: MealLog["meal_type"] = "snack"
+): Promise<MealLog> {
+  return request<MealLog>(`${HT}/meals`, {
+    method: "POST",
+    body: JSON.stringify({ name, calories, meal_type }),
+  });
+}
+
+export async function deleteMeal(id: number): Promise<void> {
+  return request<void>(`${HT}/meals/${id}`, { method: "DELETE" });
+}
+
+// --- Режим дня ---
+export async function getRoutine(): Promise<Routine> {
+  return request<Routine>(`${HT}/routine`);
+}
+
+export async function saveRoutine(
+  changes: Partial<Pick<Routine, "wake_time" | "sleep_time" | "water_goal_ml">>
+): Promise<Routine> {
+  return request<Routine>(`${HT}/routine`, {
+    method: "PUT",
+    body: JSON.stringify(changes),
+  });
+}
+
+// --- Сводка ---
+export async function getHealthSummary(): Promise<HealthSummary> {
+  return request<HealthSummary>(`${HT}/summary`);
+}
+
+// ─────────────────────────── Motivation ───────────────────────────
+
+export interface Motivation {
+  current_streak: number;
+  longest_streak: number;
+  total_active_days: number;
+  active_days_last_30: string[];
+  message: string;
+}
+
+export async function getMotivation(): Promise<Motivation> {
+  return request<Motivation>("/motivation/streaks");
+}
