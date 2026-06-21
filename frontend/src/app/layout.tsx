@@ -15,8 +15,11 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Цифровой Баланс",
-  description: "Экосистема для управления качеством жизни",
+  title: {
+    default: "Цифровой Баланс",
+    template: "%s · Цифровой Баланс",
+  },
+  description: "Lifespace · Персональный цифровой ментор и секретарь для управления качеством жизни",
 };
 
 export default function RootLayout({
