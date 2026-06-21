@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function Home() {
   return (
@@ -21,12 +22,15 @@ export default function Home() {
               digital balance
             </span>
           </div>
-          <Link
-            href="/login"
-            className="text-sm text-ink-muted transition-colors hover:text-ink"
-          >
-            Войти
-          </Link>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <Link
+              href="/login"
+              className="text-sm text-ink-muted transition-colors hover:text-ink"
+            >
+              Войти
+            </Link>
+          </div>
         </header>
 
         {/* Главный экран */}

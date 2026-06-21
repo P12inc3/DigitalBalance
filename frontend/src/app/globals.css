@@ -7,27 +7,82 @@
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
-body {
-  background-color: #0d1117;
-  color: #e6edf3;
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
+/* ─────────── ТЁМНАЯ ТЕМА (по умолчанию) ─────────── */
+:root,
+.dark {
+  --c-base-900: #0d1117; /* фон страницы */
+  --c-base-800: #151b24; /* карточки */
+  --c-base-700: #1c2530; /* границы */
+  --c-base-600: #2a3744; /* активные границы */
+
+  --c-accent: #4ecdc4;
+  --c-accent-hover: #3db8af;
+  --c-accent-dim: #2a6b66;
+
+  --c-ember: #f0a868;
+  --c-ember-dim: #7a5638;
+
+  --c-ink: #e6edf3;       /* основной текст */
+  --c-ink-muted: #8b98a5; /* вторичный */
+  --c-ink-faint: #5a6671; /* подписи */
+
+  --c-scrollbar: #2a3744;
+  --c-scrollbar-hover: #3a4a5a;
 }
 
-/* Тонкий скроллбар в тон тёмной теме */
+/* ─────────── СВЕТЛАЯ ТЕМА ─────────── */
+.light {
+  --c-base-900: #f4f6f9; /* фон страницы — очень светлый сине-серый */
+  --c-base-800: #ffffff; /* карточки — белые */
+  --c-base-700: #e3e8ef; /* границы */
+  --c-base-600: #cfd7e2; /* активные границы */
+
+  --c-accent: #1ba89e;       /* мятный, чуть глубже для контраста на белом */
+  --c-accent-hover: #159389;
+  --c-accent-dim: #b3e5e1;
+
+  --c-ember: #d98438;        /* янтарный, темнее для читаемости на светлом */
+  --c-ember-dim: #f5dcc4;
+
+  --c-ink: #1a2330;       /* основной текст — тёмно-сине-серый */
+  --c-ink-muted: #5a6878; /* вторичный */
+  --c-ink-faint: #8b98a8; /* подписи */
+
+  --c-scrollbar: #cfd7e2;
+  --c-scrollbar-hover: #b3bdcb;
+}
+
+body {
+  background-color: var(--c-base-900);
+  color: var(--c-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  /* Плавная смена темы */
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Плавный переход цветов для всех элементов при смене темы.
+   Ограничено фоном/границей/цветом, чтобы не тормозить анимации интерфейса. */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+/* Скроллбар в тон темы */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #0d1117;
+  background: var(--c-base-900);
 }
 ::-webkit-scrollbar-thumb {
-  background: #2a3744;
+  background: var(--c-scrollbar);
   border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3a4a5a;
+  background: var(--c-scrollbar-hover);
 }
 
 /* Уважаем настройку «уменьшить движение» */

@@ -18,6 +18,7 @@ import {
 import { EventsPanel } from "@/components/EventsPanel";
 import { HealthPanel } from "@/components/HealthPanel";
 import { MotivationBanner } from "@/components/MotivationBanner";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -123,12 +124,15 @@ export default function DashboardPage() {
               digital balance
             </span>
           </div>
-          <button
-            onClick={handleLogout}
-            className="text-sm text-ink-faint transition-colors hover:text-ink-muted"
-          >
-            Выйти
-          </button>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              onClick={handleLogout}
+              className="text-sm text-ink-faint transition-colors hover:text-ink-muted"
+            >
+              Выйти
+            </button>
+          </div>
         </div>
       </header>
 
@@ -175,19 +179,19 @@ export default function DashboardPage() {
             <h2 className="mb-4 text-lg font-medium text-ink">Задачи</h2>
 
             {/* Добавление задачи */}
-            <div className="flex gap-3">
+            <div className="flex items-stretch gap-3">
               <input
                 type="text"
                 value={newTask}
                 onChange={(e) => setNewTask(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleAddTask()}
                 placeholder="Новая задача..."
-                className="flex-1 rounded-lg border border-base-600 bg-base-800 px-4 py-2.5 text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                className="min-w-0 flex-1 rounded-lg border border-base-600 bg-base-800 px-4 py-2.5 text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
               />
               <button
                 onClick={handleAddTask}
                 disabled={adding}
-                className="rounded-lg bg-accent px-5 py-2.5 font-medium text-base-900 transition-colors hover:bg-accent-hover disabled:opacity-50"
+                className="shrink-0 rounded-lg bg-accent px-5 py-2.5 font-medium text-base-900 transition-colors hover:bg-accent-hover disabled:opacity-50"
               >
                 Добавить
               </button>

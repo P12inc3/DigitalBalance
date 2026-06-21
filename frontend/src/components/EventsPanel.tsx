@@ -94,17 +94,17 @@ export function EventsPanel({ events, onEventsChange }: EventsPanelProps) {
           placeholder="Название встречи..."
           className="w-full rounded-lg border border-base-600 bg-base-800 px-4 py-2.5 text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
         />
-        <div className="flex gap-2">
+        <div className="flex items-stretch gap-2">
           <input
             type="datetime-local"
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
-            className="flex-1 rounded-lg border border-base-600 bg-base-800 px-4 py-2.5 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+            className="min-w-0 flex-1 rounded-lg border border-base-600 bg-base-800 px-4 py-2.5 text-sm text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
           />
           <button
             onClick={handleAdd}
             disabled={adding}
-            className="rounded-lg bg-accent px-5 py-2.5 font-medium text-base-900 transition-colors hover:bg-accent-hover disabled:opacity-50"
+            className="shrink-0 rounded-lg bg-accent px-5 py-2.5 font-medium text-base-900 transition-colors hover:bg-accent-hover disabled:opacity-50"
           >
             Добавить
           </button>

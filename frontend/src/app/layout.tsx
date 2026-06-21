@@ -27,8 +27,24 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Инлайн-скрипт применяет сохранённую тему ДО отрисовки —
+  // это устраняет «вспышку» неправильной темы при загрузке страницы.
+  const themeScript = `
+    (function() {
+      try {
+        var t = localStorage.getItem('db_theme') || 'dark';
+        document.documentElement.classList.add(t);
+      } catch (e) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  `;
+
   return (
     <html lang="ru" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>{children}</body>
     </html>
   );
